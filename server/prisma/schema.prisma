@@ -11,81 +11,10 @@ model User {
   id        Int      @id @default(autoincrement())
   username  String   @unique
   email     String   @unique
-  country   String
-  img       String?  // Optional field
-  city      String
-  phone     String
   password  String
   isAdmin   Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  // Relations
-  hotels    Hotel[]  // A user may own/manage multiple hotels (if needed)
 }
 
-// 2. Room Model
-model Room {
-  id          Int      @id @default(autoincrement())
-  title       String
-  price       Float
-  maxPeople   Int
-  desc        String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  // Relation fields
-  roomNumbers RoomNumber[]
-  hotelId     Int      // Foreign key to Hotel
-  hotel       Hotel    @relation(fields: [hotelId], references: [id])
-}
-
-// 3. RoomNumber Model
-model RoomNumber {
-  id              Int              @id @default(autoincrement())
-  number          Int
-  roomId          Int
-  room            Room             @relation(fields: [roomId], references: [id])
-  
-  // Unavailable dates relation
-  unavailableDates UnavailableDate[]
-}
-
-// 4. UnavailableDate Model
-model UnavailableDate {
-  id          Int      @id @default(autoincrement())
-  date        DateTime
-  roomNumberId Int
-  roomNumber  RoomNumber @relation(fields: [roomNumberId], references: [id])
-}
-
-// 5. Hotel Model
-model Hotel {
-  id            Int      @id @default(autoincrement())
-  name          String
-  type          String
-  city          String
-  address       String
-  distance      String
-  title         String
-  desc          String
-  rating        Decimal? @default(0.0) @db.Decimal(2, 1)  // Rating between 0 and 5
-  cheapestPrice Float
-  featured      Boolean  @default(false)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  // Relation fields
-  rooms         Room[]
-  ownerId       Int?    // Optional: If the hotel is owned by a user
-  owner         User?   @relation(fields: [ownerId], references: [id])
-  photos        Photo[] // Relation to Photo model
-}
-
-
-model Photo {
-  id       Int    @id @default(autoincrement())
-  url      String
-  hotelId  Int
-  hotel    Hotel  @relation(fields: [hotelId], references: [id])
-}
