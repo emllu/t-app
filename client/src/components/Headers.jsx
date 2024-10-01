@@ -1,5 +1,5 @@
 // Headers.js
-import { Navbar, TextInput } from 'flowbite-react';
+import { Button, Navbar, TextInput } from 'flowbite-react';
 import React from 'react';
 import { Form, Link,useLocation } from 'react-router-dom';
 import { AiOutlineSearch } from "react-icons/ai";
@@ -20,17 +20,17 @@ const Headers = () => {
           className=' hidden sm:inline'
         />
       </form>
-      <button className=' w-12 h-10 lg:hidden md:hidden  '  pill >
- <AiOutlineSearch color='gray'/>
-      </button>
+      <Button className=' w-12 h-10 lg:hidden md:hidden  ' color='gray'  pill >
+ <AiOutlineSearch />
+      </Button>
       <div className='flex gap-2 md:order-2'>
-        <button className='w-12 h-10 sm:inline' pill color='gray'>
+        <Button className='w-12 h-10 sm:inline' pill color='gray' >
           <FaMoon/>
-        </button>
+        </Button>
         <Link to='/signin'>
-  <button className="bg-gradient-to-r from-purple-500 to-blue-500 text-white px-4 py-2 rounded-lg " outline >
+  <Button gradientDuoTone="purpleToBlue"  outline >
     Sign In
-  </button>
+  </Button>
 </Link>
         <Navbar.Toggle/>
         </div>
