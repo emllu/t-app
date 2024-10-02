@@ -12,3 +12,11 @@ import { IsEmail, IsNotEmpty, IsString } from "class-validator";
            @IsNotEmpty()
            password:string
         }
+        export class SignDto{
+         @IsEmail()
+         @IsNotEmpty()
+            email:string;
+            @IsString()
+            @IsNotEmpty()
+            password:string
+        }
