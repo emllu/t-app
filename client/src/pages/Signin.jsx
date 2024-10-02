@@ -41,7 +41,7 @@ const navigate=useNavigate()
       }
 
       // Success
-      dispatch(signinsuccess(`User info: ${JSON.stringify(response.data.user)}`));
+      dispatch(signinsuccess(` ${JSON.stringify(response.data.user)}`));
       console.log(`logged in: ${JSON.stringify(response.data.user)}`)
      navigate('/')
     } catch (error) {

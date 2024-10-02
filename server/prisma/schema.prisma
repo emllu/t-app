@@ -12,6 +12,7 @@ model User {
   username  String   @unique
   email     String   @unique
   password  String
+  photourl String   @default("https://i.pinimg.com/474x/cb/45/72/cb4572f19ab7505d552206ed5dfb3739.jpg")
   isAdmin   Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
