@@ -41,9 +41,10 @@ const navigate=useNavigate()
       }
 
       // Success
+      
       dispatch(signinsuccess(` ${JSON.stringify(response.data.user)}`));
       console.log(`logged in: ${JSON.stringify(response.data.user)}`)
-     navigate('/')
+     navigate('/dashboard')
     } catch (error) {
       dispatch(signinFailure('Signin failed'));
     }

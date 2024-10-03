@@ -9,7 +9,7 @@ import About from './pages/About';
 import Projects from './pages/Projects';
 import Dashboard from './pages/Dashboard'
 import CustomeFooter from './components/CustomeFooter';
-
+import PrivateRoutes from './components/PrivateRoutes'
 const App = () => {
   return (
     <Router>
@@ -19,8 +19,11 @@ const App = () => {
         <Route path='/signup' element={<Signup />} />
         <Route path='/signin' element={<Signin />} />
         <Route path='/about' element={<About />} />
-        <Route path='/projects' element={<Projects />} />
+        <Route element={<PrivateRoutes/>}>
         <Route path='/dashboard' element={<Dashboard />} />
+        </Route>
+        <Route path='/projects' element={<Projects />} />
+       
       </Routes>
       <CustomeFooter/>
       

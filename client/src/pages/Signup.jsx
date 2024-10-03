@@ -42,7 +42,7 @@ const navigate=useNavigate()
 
       // Success
       dispatch(signinsuccess(`User info: ${JSON.stringify(response.data.user)}`));
-     navigate('/')
+     navigate('/dashboard')
     } catch (error) {
       dispatch(signinFailure('Signup failed'));
     }
@@ -54,7 +54,7 @@ const navigate=useNavigate()
         <div className='flex-1 w-full md:w-1/2'>
           <Link to='/' className='font-bold dark:text-white text-4xl'>
             <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white'>
-              Shand's
+              Eman's
             </span> Blog
           </Link>
           <p className='text-sm mt-5'>
