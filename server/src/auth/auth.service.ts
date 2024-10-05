@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { AuthDto, GoogleDto, SignDto } from 'src/dto';
+import { AuthDto, GoogleDto, PostDto, SignDto } from 'src/dto';
 import { PrismaService } from 'src/prisma/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
@@ -127,15 +127,62 @@ export class AuthService {
       };
     }
   }
-  
-  
+  async createPost(dto: PostDto, user: any) {
+    // Input validation
+    console.log(user)
+    if (!dto.title || typeof dto.title !== 'string') {
+      return {
+        message: 'Title is required and must be a string',
+        success: false,
+      };
+    }
 
+    // Check if user is an admin
+    if (!user.isAdmin) {
+      return {
+        message: 'Only admins can create posts',
+        success: false,
+      };
+    }
 
+    // Generate slug from title
+    const slug = dto.title
+      .split(' ')
+      .join('-')
+      .toLowerCase()
+      .replace(/[^a-zA-Z0-9-]/g, '-');
+
+    try {
+      // Create post in the database
+      const postData = await this.prisma.post.create({
+        data: {
+          title: dto.title,
+          content: dto.content || 'none',
+          category: dto.category || 'unCategorized',
+          image: dto.image||"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWjPJ_O0S5btxCavEVpCk-Q9YhYUXCrFTmaA&s",
+          slug,
+          userid: user.sub, // Ensure user ID is attached to post
+        },
+      });
+
+      return {
+        message: 'Post created successfully',
+        success: true,
+        data: postData,
+      };
+    } catch (error) {
+      console.error('Error creating post:', error); // Log the error details
+      return {
+        message: 'Error creating post: ' + (error.message || 'Unknown error'),
+        success: false,
+      };
+    }
+  }
   private generateJwtToken(userId: number, email: string,isAdmin:boolean) {
     const payload = { sub: userId, email,isAdmin };
     return this.jwtService.sign(payload, {
       secret: this.configService.get<string>('SECRET_KEY'),
-      expiresIn: '1h',
+      expiresIn: '6h',
     });
   }  
     }

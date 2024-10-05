@@ -31,3 +31,18 @@ import { IsEmail, IsNotEmpty, IsOptional, IsString } from "class-validator";
          @IsString()
          photourl?: string;
        }
+       export class PostDto{
+         @IsString()
+         @IsOptional()
+        content?: string;
+      
+        @IsOptional()
+         @IsString()
+        category: string;
+        @IsOptional()
+         @IsString()
+         image?: string;
+         @IsNotEmpty()
+         @IsString()
+          title: string;
+       }

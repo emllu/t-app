@@ -1,8 +1,8 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthDto, GoogleDto, SignDto } from 'src/dto';
+import { AuthDto, GoogleDto, PostDto, SignDto } from 'src/dto';
 import { Response } from 'express';
-
+import {AuthGuard} from '../guards/auth/auth.guard'
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -62,6 +62,25 @@ export class AuthController {
 
     return res.json({
       user: result.user,
+      success: true,
+    });
+  }
+  @UseGuards(AuthGuard)
+  @Post('post')
+   async createPost(@Body() dto:PostDto ,@Req() req,@Res() res){
+    const result = await this.authService.createPost(dto,req.user);
+    if (!result.success) {
+      return res.status(401).json({
+        message: result.message,
+        success: false,
+      });
+    }
+
+    // Set the cookie with the access token
+  
+
+    return res.status(201).json({
+     data:result.data,
       success: true,
     });
   }

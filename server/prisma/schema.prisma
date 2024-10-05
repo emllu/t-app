@@ -18,4 +18,14 @@ model User {
   updatedAt DateTime @updatedAt
 
 }
-
+model post {
+  id  Int @id @default(autoincrement())
+  userid Int @unique
+  content String 
+  title String @unique
+  image String  @default("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWjPJ_O0S5btxCavEVpCk-Q9YhYUXCrFTmaA&s")
+  category String @default("unCategorized")
+  slug String @unique
+   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
