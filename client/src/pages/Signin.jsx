@@ -39,13 +39,12 @@ const navigate=useNavigate()
         dispatch(signinFailure(response.data.message));
         return;
       }
-
       // Success
-      
-      dispatch(signinsuccess(` ${JSON.stringify(response.data.user)}`));
-      console.log(`logged in: ${JSON.stringify(response.data.user)}`)
+      dispatch(signinsuccess(response.data.user)); // Store the user object directly
+      console.log('logged in', (response.data.user))
      navigate('/dashboard')
     } catch (error) {
+      console.log(error)
       dispatch(signinFailure('Signin failed'));
     }
   };

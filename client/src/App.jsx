@@ -10,6 +10,8 @@ import Projects from './pages/Projects';
 import Dashboard from './pages/Dashboard'
 import CustomeFooter from './components/CustomeFooter';
 import PrivateRoutes from './components/PrivateRoutes'
+import IsOnlyAdminRoutes from './components/IsOnlyAdminRoutes';
+import CreatePost from './components/CreatePost';
 const App = () => {
   return (
     <Router>
@@ -19,9 +21,13 @@ const App = () => {
         <Route path='/signup' element={<Signup />} />
         <Route path='/signin' element={<Signin />} />
         <Route path='/about' element={<About />} />
+        {/* <Route element={<IsOnlyAdminRoutes/>}> */}
+        <Route path='/create-post' element={<CreatePost />} />
+        {/* </Route> */}
         <Route element={<PrivateRoutes/>}>
         <Route path='/dashboard' element={<Dashboard />} />
         </Route>
+       
         <Route path='/projects' element={<Projects />} />
        
       </Routes>

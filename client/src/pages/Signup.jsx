@@ -41,8 +41,8 @@ const navigate=useNavigate()
       }
 
       // Success
-      dispatch(signinsuccess(`User info: ${JSON.stringify(response.data.user)}`));
-     navigate('/dashboard')
+      dispatch(signinsuccess(response.data.user)); // Store the user object directly
+           navigate('/dashboard')
     } catch (error) {
       dispatch(signinFailure('Signup failed'));
     }
@@ -73,6 +73,8 @@ const navigate=useNavigate()
                 id='username'
                 value={formData.username}
                 onChange={handleChange}
+               
+                
               />
             </div>
             <div>

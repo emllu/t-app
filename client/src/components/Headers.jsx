@@ -9,6 +9,7 @@ import { toggleTheme } from '../redux/themeSlice'; // Ensure action is imported
 const Headers = () => {
   const path = useLocation().pathname;
   const currentuser = useSelector((state) => state?.user?.currentuser);
+  console.log("currentuser",currentuser)
   const {theme} = useSelector(state => state.theme); // Get theme from Redux
   const dispatch = useDispatch(); 
 
@@ -34,7 +35,7 @@ const Headers = () => {
       </Button>
 
       <div className='flex gap-2 md:order-2'>
-        <Button className='w-12 h-10 sm:inline' pill color='gray' onClick={() => dispatch(toggleTheme())}>
+        <Button className='  w-12 h-10 sm:inline' pill color='gray' onClick={() => dispatch(toggleTheme())}>
           {theme === 'dark' ? <FaSun /> : <FaMoon />} 
         </Button>
 
@@ -47,6 +48,7 @@ const Headers = () => {
                 alt='user'
                 img={currentuser?.photourl}
                 rounded
+                className=''
               />
             }
           >

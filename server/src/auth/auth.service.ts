@@ -68,7 +68,7 @@ export class AuthService {
     delete user.password; // Omit password from the user object
 
     // Generate JWT token
-    const accessToken = this.generateJwtToken(user.id, user.email);
+    const accessToken = this.generateJwtToken(user.id, user.email,user.isAdmin);
 
     return {
       accessToken,
@@ -89,7 +89,7 @@ export class AuthService {
       delete user.password; // Omit the password from the user object
 
       // Generate JWT token
-      const accessToken = this.generateJwtToken(user.id, user.email);
+      const accessToken = this.generateJwtToken(user.id, user.email,user.isAdmin);
 
       return {
         accessToken,
@@ -117,7 +117,7 @@ export class AuthService {
       });
 
       // Generate JWT token for the new user
-      const accessToken = this.generateJwtToken(newUser.id, newUser.email);
+      const accessToken = this.generateJwtToken(newUser.id, newUser.email,newUser.isAdmin);
 
       return {
         accessToken,
@@ -131,8 +131,8 @@ export class AuthService {
   
 
 
-  private generateJwtToken(userId: number, email: string) {
-    const payload = { sub: userId, email };
+  private generateJwtToken(userId: number, email: string,isAdmin:boolean) {
+    const payload = { sub: userId, email,isAdmin };
     return this.jwtService.sign(payload, {
       secret: this.configService.get<string>('SECRET_KEY'),
       expiresIn: '1h',
