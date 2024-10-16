@@ -1,31 +1,29 @@
 import { Alert, Button, FileInput, Select, TextInput } from 'flowbite-react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
-} from 'firebase/storage';
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../firebase/config';
 import { useState } from 'react';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie'; // Import Cookies
+import Cookies from 'js-cookie';
+import { useSelector } from 'react-redux';
 
-export default function CreatePost() {
+const CreatPost = () => {
   const [file, setFile] = useState(null);
   const [imageUploadProgress, setImageUploadProgress] = useState(null);
   const [imageUploadError, setImageUploadError] = useState(null);
   const [formData, setFormData] = useState({});
   const [publishError, setPublishError] = useState(null);
-
   const navigate = useNavigate();
-
+const {currentuser,token}=useSelector(state=>state.user)
+console.log(currentuser.accZz )
   // Get the token from cookies instead of Redux
-  const accessToken = Cookies.get('accessToken'); // Get token from cookie
+  console.log(document.cookie);
+  console.log("token",token)
 
+ 
   const handleUploadImage = async () => {
     try {
       if (!file) {
@@ -37,11 +35,11 @@ export default function CreatePost() {
       const fileName = new Date().getTime() + '-' + file.name;
       const storageRef = ref(storage, fileName);
       const uploadTask = uploadBytesResumable(storageRef, file);
+
       uploadTask.on(
         'state_changed',
         (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           setImageUploadProgress(progress.toFixed(0));
         },
         (error) => {
@@ -65,12 +63,17 @@ export default function CreatePost() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!token) {
+      setPublishError('Access token is missing. Please log in again.');
+      return;
+    }
+
     try {
       const res = await fetch('http://localhost:3000/auth/post', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`, // Add token to Authorization header
+          Authorization: `Bearer ${token}`, // Add token to Authorization header
         },
         body: JSON.stringify(formData),
       });
@@ -87,12 +90,13 @@ export default function CreatePost() {
       }
     } catch (error) {
       setPublishError('Something went wrong');
+      console.error('Error submitting the post:', error);
     }
   };
 
   return (
     <div className='p-1 max-w-3xl mx-auto min-h-screen'>
-      <h1 className='text-center text-3xl  font-semibold'>Create a post</h1>
+      <h1 className='text-center text-3xl font-semibold'>Create a post</h1>
       <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
         <div className='flex flex-col gap-4 sm:flex-row justify-between'>
           <TextInput
@@ -101,14 +105,10 @@ export default function CreatePost() {
             required
             id='title'
             className='flex-1'
-            onChange={(e) =>
-              setFormData({ ...formData, title: e.target.value })
-            }
+            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
           />
           <Select
-            onChange={(e) =>
-              setFormData({ ...formData, category: e.target.value })
-            }
+            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
           >
             <option value='uncategorized'>Select a category</option>
             <option value='javascript'>JavaScript</option>
@@ -171,3 +171,5 @@ export default function CreatePost() {
     </div>
   );
 }
+
+export default CreatPost;

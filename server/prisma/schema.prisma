@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,25 +6,66 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
 model User {
   id        Int      @id @default(autoincrement())
   username  String   @unique
   email     String   @unique
   password  String
-  photourl String   @default("https://i.pinimg.com/474x/cb/45/72/cb4572f19ab7505d552206ed5dfb3739.jpg")
+  photourl  String   @default("https://i.pinimg.com/474x/cb/45/72/cb4572f19ab7505d552206ed5dfb3739.jpg")
   isAdmin   Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  // Relation to Post and Comment
+  posts    Post[]
+  comments Comment[]
+  likes    Like[]
 }
-model post {
-  id  Int @id @default(autoincrement())
-  userid Int @unique
-  content String 
-  title String @unique
-  image String  @default("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWjPJ_O0S5btxCavEVpCk-Q9YhYUXCrFTmaA&s")
-  category String @default("unCategorized")
-  slug String @unique
-   createdAt DateTime @default(now())
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  userid    Int
+  content   String
+  title     String   @unique
+  image     String   @default("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWjPJ_O0S5btxCavEVpCk-Q9YhYUXCrFTmaA&s")
+  category  String   @default("unCategorized")
+  slug      String   @unique
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  // Relation to User
+  user User @relation(fields: [userid], references: [id])
+
+  // Relation to Comment
+  comments Comment[]
+}
+
+model Comment {
+  id            String   @id @default(uuid())
+  content       String
+  postId        Int
+  userId        Int
+  numberOfLikes Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  post Post @relation(fields: [postId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+
+  // Relation to Like
+  likes Like[]
+}
+
+model Like {
+  id        Int    @id @default(autoincrement())
+  userId    Int
+  commentId String
+
+  // Relations
+  user    User    @relation(fields: [userId], references: [id])
+  comment Comment @relation(fields: [commentId], references: [id])
+
+  createdAt DateTime @default(now())
 }

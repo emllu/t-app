@@ -41,7 +41,8 @@ const navigate=useNavigate()
       }
 
       // Success
-      dispatch(signinsuccess(response.data.user)); // Store the user object directly
+      dispatch(signinsuccess(response.data.user))
+      dispatch(settoken(response.data.token)); // Store the user object directly
            navigate('/dashboard')
     } catch (error) {
       dispatch(signinFailure('Signup failed'));

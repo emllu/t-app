@@ -46,3 +46,15 @@ import { IsEmail, IsNotEmpty, IsOptional, IsString } from "class-validator";
          @IsString()
           title: string;
        }
+       export class CommentDto{
+         @IsString()
+         @IsOptional()
+        content?: string;
+   
+         @IsString()
+         postId:number
+         @IsString()
+        userId:number
+       ;
+        
+       }

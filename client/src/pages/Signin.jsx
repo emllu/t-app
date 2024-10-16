@@ -2,7 +2,7 @@ import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react';
 import React, { useState } from 'react';
 import { Link,useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { signinstart, signinFailure, signinsuccess } from '../redux/userSlices';
+import { signinstart, signinFailure, signinsuccess ,settoken} from '../redux/userSlices';
 import { useDispatch, useSelector } from 'react-redux';
 import { FcGoogle } from "react-icons/fc";
 import Oauth from '../components/Oauth';
@@ -40,7 +40,9 @@ const navigate=useNavigate()
         return;
       }
       // Success
-      dispatch(signinsuccess(response.data.user)); // Store the user object directly
+      dispatch(signinsuccess(response.data.user));
+      console.log(response.data.token)
+      dispatch(settoken(response.data.token)) // Store the user object directly
       console.log('logged in', (response.data.user))
      navigate('/dashboard')
     } catch (error) {
