@@ -8,6 +8,7 @@ import {
 } from 'react-icons/hi';
 import { Button, Table } from 'flowbite-react';
 import { Link } from 'react-router-dom';
+import profile from '../assets/img/profile.jpg';
 
 export default function DashboardComp() {
   const [users, setUsers] = useState([]);
@@ -148,7 +149,7 @@ export default function DashboardComp() {
                   <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
                     <Table.Cell>
                       <img
-                        src={user.profilePicture}
+                        src={profile}
                         alt='user'
                         className='w-10 h-10 rounded-full bg-gray-500'
                       />

@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 import { FaCheck, FaTimes } from 'react-icons/fa';
-import Cookies from 'js-cookie';
+
+import profile from '../assets/img/profile.jpg';
 export default function DashUsers() {
   const { currentuser,token } = useSelector((state) => state.user);
   const [users, setUsers] = useState([]); // Initialize users as an empty array
@@ -11,6 +12,7 @@ export default function DashUsers() {
   const [showModal, setShowModal] = useState(false);
   const [userIdToDelete, setUserIdToDelete] = useState('');
  
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -95,7 +97,7 @@ export default function DashUsers() {
                   </Table.Cell>
                   <Table.Cell>
                     <img
-                      src={user.profilePicture}
+                      src={profile}
                       alt={user.username}
                       className='w-10 h-10 object-cover bg-gray-500 rounded-full'
                     />
