@@ -1,1 +1,0 @@
-getpost,post,getuser,delete-user,likecomment,delete-comemnt
